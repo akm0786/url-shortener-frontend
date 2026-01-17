@@ -5,7 +5,8 @@ const Navbar = () => {
     <nav style={{ padding: "1rem", borderBottom: "1px solid #ddd" }}>
       <Link to="/">Home</Link> |{" "}
       <Link to="/dashboard">Dashboard</Link> |{" "}
-      <Link to="/login">Login</Link>
+      <Link to="/login">Login</Link> |{" "}
+      <Link to="/register">Register</Link>
     </nav>
   );
 };
