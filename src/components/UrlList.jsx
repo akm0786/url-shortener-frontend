@@ -1,5 +1,6 @@
 import { useDispatch } from "react-redux"
 import { deleteUrl } from "../features/url/urlSlice"
+const redirectBaseUrl = import.meta.env.VITE_REDIRECT_BASE_URL;
 
 const UrlList = ({ urls }) => {
 
@@ -9,19 +10,41 @@ const UrlList = ({ urls }) => {
         <p>No URLs found</p>
     }
 
-    return (
-        <ul>
-            {urls.map((url) => (
-                <li key={url._id}>
-                    <p>Original : {url.originalUrl}</p>
-                    <p>Short Code : {url.shortCode}</p>
-                    <p>Clicks : {url.clicks}</p>
-                    <button onClick={() => dispatch(deleteUrl(url._id))}>Delete</button>
-                </li>
-            ))
-            }
-        </ul >
-    )
+return (
+    <div className="overflow-x-auto mt-6">
+      <table className="w-full border">
+        <thead className="bg-gray-100">
+          <tr>
+            <th className="p-2 border">Original</th>
+            <th className="p-2 border">Short</th>
+            <th className="p-2 border">Clicks</th>
+            <th className="p-2 border">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {urls.map((url) => (
+            <tr key={url._id} className="text-center">
+              <td className="p-2 border truncate max-w-xs">
+                {url.originalUrl}
+              </td>
+              <td className="p-2 border text-blue-600">
+                <a href={`${redirectBaseUrl}/${url.shortCode}`} target="_blank" rel="noopener noreferrer"> {redirectBaseUrl}/{url.shortCode} </a>
+              </td>
+              <td className="p-2 border">{url.clicks}</td>
+              <td className="p-2 border">
+                <button
+                  onClick={() => dispatch(deleteUrl(url._id))}
+                  className="text-red-600 hover:underline"
+                >
+                  Delete
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
 }
 
 export default UrlList

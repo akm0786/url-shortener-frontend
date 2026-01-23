@@ -17,7 +17,7 @@ const Dashboard = () => {
             <h2>Dashboard</h2>
             <CreateUrlForm/>
 
-            {loading ? <p>Loading...</p> : <UrlList urls={urls}/>}
+            {loading ? <p className="text-center text-gray-500 mt-4">Loading...</p> : <UrlList urls={urls}/>}
         </>
     )
 }

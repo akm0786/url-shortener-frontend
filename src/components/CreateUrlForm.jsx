@@ -27,25 +27,32 @@ const CreateUrlForm = () => {
     }
 
     return (
-        <form onSubmit={handleForm}>
-            <input
-                type="text"
-                name="originalUrl"
-                placeholder='Enter Long Url'
-                value={originalUrl}
-                onChange={(e) => setOriginalUrl(e.target.value)}
-            />
-            <input
-                type="text"
-                name="customAlias"
-                placeholder='Custom Alias (optional)'
-                value={customAlias}
-                onChange={(e) => setCustomAlias(e.target.value)}
-            />
-            <button type="submit">Shorten</button>
+       <form
+  onSubmit={handleForm}
+  className="bg-white p-4 rounded shadow flex flex-col gap-3"
+>
+  <input
+    className="border p-2 rounded"
+    placeholder="Enter long URL"
+    value={originalUrl}
+    onChange={(e) => setOriginalUrl(e.target.value)}
+    required
+  />
 
+  <input
+    className="border p-2 rounded"
+    placeholder="Custom alias (optional)"
+    value={customAlias}
+    onChange={(e) => setCustomAlias(e.target.value)}
+  />
 
-        </form>
+  <button
+    className="bg-blue-600 text-white py-2 rounded disabled:opacity-50"
+    type="submit"
+  >
+    Shorten URL
+  </button>
+</form>
     )
 }
 
