@@ -28,7 +28,7 @@ export const loginUser = createAsyncThunk("auth/loginUser", async (formData, { r
 export const logoutUser = createAsyncThunk("auth/logoutUser", async (_, { rejectWithValue }) => {
 
     try {
-        const res = await api.post("/auth/logout");
+        const res = await api.get("/auth/logout");
         return true;
     } catch (err) {
         return rejectWithValue(err?.response?.data.message || "Logout Failed");
@@ -49,7 +49,7 @@ export const checkAuth = createAsyncThunk("auth/checkAuth", async (_, { rejectWi
 
 const initialState = {
     user: null,
-    loading: false,
+    loading: true,
     isAuthenticated: localStorage.getItem("isAuthenticated") === "true",
     error: null
 };
@@ -103,7 +103,8 @@ const authSlice = createSlice({
                 state.isAuthenticated = false;
                 state.user = null;
 
-                localStorage.setItem("isAuthenticated", false);
+                localStorage.removeItem("isAuthenticated"); 
+                console.log("logout done")
             })
             // check auth
             .addCase(checkAuth.pending, (state) => {
@@ -122,8 +123,7 @@ const authSlice = createSlice({
                 state.loading = false;
                 state.isAuthenticated = false;
                 state.user = null;
-
-                localStorage.setItem("isAuthenticated", false);
+                localStorage.removeItem("isAuthenticated");
             })
     }
 })

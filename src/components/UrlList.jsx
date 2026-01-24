@@ -29,6 +29,9 @@ return (
               </td>
               <td className="p-2 border text-blue-600">
                 <a href={`${redirectBaseUrl}/${url.shortCode}`} target="_blank" rel="noopener noreferrer"> {redirectBaseUrl}/{url.shortCode} </a>
+                {/* adding a copy button with alert message */}
+                <button onClick={() => navigator.clipboard.writeText(`${redirectBaseUrl}/${url.shortCode}`).then(() => alert("Copied to clipboard")) } className="ml-2 text-blue-600 hover:underline">(Click to Copy)</button>
+                
               </td>
               <td className="p-2 border">{url.clicks}</td>
               <td className="p-2 border">
