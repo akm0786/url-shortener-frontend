@@ -39,31 +39,44 @@ const urlSlice = createSlice({
     initialState: {
         loading: false,
         urls: [],
-        error: null
+        error: null // To store our error messages
     },
-    reducers: {},
+    reducers: {
+        // Reducer to clear errors from the UI
+        clearUrlError: (state) => {
+            state.error = null;
+        }
+    },
     extraReducers: (builder) => {
         builder
+            // Fetch URLs
             .addCase(fetchUrls.pending, (state) => {
                 state.loading = true;
+                state.error = null;
             })
             .addCase(fetchUrls.fulfilled, (state, action) => {
                 state.loading = false;
                 state.urls = action.payload.data;
             })
-
-            .addCase(createShortUrl.rejected, (state, action) => {
-                console.log(action.payload)
+            // Create URL
+            .addCase(createShortUrl.pending, (state) => {
+                state.loading = true;
+                state.error = null; // Clear previous errors on new attempt
             })
             .addCase(createShortUrl.fulfilled, (state, action) => {
+                state.loading = false;
                 state.urls.unshift(action.payload);
             })
-
-            .addCase(deleteUrl.fulfilled, (state, action) => {
-                state.urls = state.urls.filter(url=> url._id !== action.payload)
+            .addCase(createShortUrl.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload; // Save the backend error message
             })
-
+            // Delete URL
+            .addCase(deleteUrl.fulfilled, (state, action) => {
+                state.urls = state.urls.filter(url => url._id !== action.payload);
+            });
     }
-})
+});
 
-export default urlSlice.reducer
+export const { clearUrlError } = urlSlice.actions;
+export default urlSlice.reducer;
