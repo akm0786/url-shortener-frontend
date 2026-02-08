@@ -48,14 +48,14 @@ const UrlList = ({ urls }) => {
                 {/* Short URL with Copy Action */}
                 <td className="px-6 py-4">
                   <div className="flex items-center space-x-2">
-                    <a 
-                      href={`${redirectBaseUrl}/${url.shortCode}`} 
-                      target="_blank" 
+                    <a
+                      href={`${redirectBaseUrl}/${url.shortCode}`}
+                      target="_blank"
                       className="text-sm font-medium text-blue-600 hover:text-blue-700 flex items-center gap-1"
                     >
                       /{url.shortCode} <ExternalLink size={14} />
                     </a>
-                    <button 
+                    <button
                       onClick={() => handleCopy(url.shortCode)}
                       className="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-md transition-all"
                       title="Copy Link"
@@ -67,16 +67,23 @@ const UrlList = ({ urls }) => {
 
                 {/* Click Badge */}
                 <td className="px-6 py-4">
-                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700 border border-blue-100">
+                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700 border border-blue-100 w-max">
                     {url.clicks} clicks
                   </span>
                 </td>
 
                 {/* Delete Action */}
-                <td className="px-6 py-4 text-right">
+                <td className="px-4 sm:px-6 py-4 text-right">
                   <button
                     onClick={() => dispatch(deleteUrl(url._id))}
-                    className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all opacity-0 group-hover:opacity-100"
+                    className={`
+                        p-2 rounded-lg transition-all
+                        sm:opacity-0 sm:group-hover:opacity-100
+                        text-gray-400 hover:text-red-600 hover:bg-red-50
+                        active:text-red-600 active:bg-red-50
+                        sm:invisible sm:group-hover:visible
+                      `}
+                    title="Delete this link"
                   >
                     <Trash2 size={18} />
                   </button>
