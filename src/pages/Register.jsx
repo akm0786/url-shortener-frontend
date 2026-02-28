@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { registerUser, clearAuthError } from "../features/auth/authSlice";
+import { registerUser, clearAuthError, googleLoginUser } from "../features/auth/authSlice";
 import { useNavigate, Link } from "react-router-dom";
 import { User, Mail, Lock, UserPlus, AlertCircle, Loader2 } from "lucide-react";
+import { GoogleLogin } from "@react-oauth/google";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -37,7 +38,7 @@ const Register = () => {
   return (
     <div className="min-h-[80vh] flex items-center justify-center px-4 py-12">
       <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-3xl shadow-xl shadow-gray-100 border border-gray-100">
-        
+
         {/* Header */}
         <div className="text-center">
           <div className="mx-auto h-12 w-12 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center mb-4">
@@ -116,6 +117,26 @@ const Register = () => {
             )}
           </button>
         </form>
+
+        <div className="relative mt-6">
+          <div className="absolute inset-0 flex items-center">
+            <div className="w-full border-t border-gray-200" />
+          </div>
+          <div className="relative flex justify-center text-sm">
+            <span className="px-2 bg-white text-gray-500">Or continue with</span>
+          </div>
+        </div>
+
+        <div className="mt-6 flex justify-center">
+          <GoogleLogin
+            onSuccess={(credentialResponse) => {
+              dispatch(googleLoginUser(credentialResponse.credential));
+            }}
+            onError={() => {
+              console.log('Login Failed');
+            }}
+          />
+        </div>
 
         {/* Footer */}
         <p className="text-center text-sm text-gray-600">

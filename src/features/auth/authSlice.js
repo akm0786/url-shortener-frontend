@@ -23,6 +23,16 @@ export const loginUser = createAsyncThunk("auth/loginUser", async (formData, { r
     }
 })
 
+// Google Login
+export const googleLoginUser = createAsyncThunk("auth/googleLoginUser", async (token, { rejectWithValue }) => {
+    try {
+        const res = await api.post("/auth/google", { token });
+        return res.data;
+    } catch (err) {
+        return rejectWithValue(err?.response?.data.message || "Google Login Failed");
+    }
+})
+
 // logout
 
 export const logoutUser = createAsyncThunk("auth/logoutUser", async (_, { rejectWithValue }) => {
@@ -98,12 +108,28 @@ const authSlice = createSlice({
                 state.error = action.payload;
             })
 
+            // google login
+            .addCase(googleLoginUser.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(googleLoginUser.fulfilled, (state, action) => {
+                state.loading = false;
+                state.isAuthenticated = true;
+                state.user = action.payload.user;
+                localStorage.setItem("isAuthenticated", true);
+            })
+            .addCase(googleLoginUser.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
+
             // logout
             .addCase(logoutUser.fulfilled, (state) => {
                 state.isAuthenticated = false;
                 state.user = null;
 
-                localStorage.removeItem("isAuthenticated"); 
+                localStorage.removeItem("isAuthenticated");
                 console.log("logout done")
             })
             // check auth
